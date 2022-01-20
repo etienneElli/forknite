@@ -5,9 +5,9 @@ tasks:
     init: |
         yarn create react-app forknite-pwa --template cra-template-pwa-typescript
         cd /workspace/forknite-pwa/src/
-        mkdir modules
-        mv /workspace/forknite/ ./modules/
-        git clone https://github.com/etienne1911/pwa-tools.git ./modules/
+        mkdir modules && cd modules/
+        mv /workspace/forknite/ ./
+        git clone https://github.com/etienne1911/pwa-tools.git
         cd /workspace/forknite-pwa/
         yarn add react-router-dom 
     command: |
