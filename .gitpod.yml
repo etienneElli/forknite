@@ -1,0 +1,17 @@
+checkoutLocation: "./forknite"
+workspaceLocation: "."
+tasks:
+  - name: setup
+    init: |
+        yarn create react-app forknite-pwa --template cra-template-pwa-typescript
+        cd /workspace/forknite-pwa/src/modules/
+        mv /workspace/forknite/ 
+        git clone https://github.com/etienne1911/pwa-tools.git
+        cd /workspace/forknite-pwa/
+        yarn add react-router-dom 
+    command: |
+      cd /workspace/forknite-pwa
+      yarn run start
+ports:
+  - port: 3000
+    onOpen: ignore
