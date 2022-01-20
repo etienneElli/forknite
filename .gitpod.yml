@@ -7,10 +7,15 @@ tasks:
         cd /workspace/forknite-pwa/src/
         mkdir modules && cd modules/
         mv /workspace/forknite/ ./
-        git clone https://github.com/etienne1911/pwa-tools.git
+        touch modules
+        echo "git clone https://github.com/etienne1911/forknite.git" >> modules
+        echo "git clone https://github.com/etienne1911/pwa-tools.git" >> modules
+        sh modules
+        node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs
+        rm modules && mv .gitmodules ../../
         cd /workspace/forknite-pwa/
         yarn add react-router-dom 
-        node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs
+        node --experimental-json-modules ./src/modules/pwa-tools/scripts/tsconf_patch.mjs
     command: |
       cd /workspace/forknite-pwa
       yarn run start
