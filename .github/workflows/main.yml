@@ -46,7 +46,7 @@ jobs:
           node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
           sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx &&
           cat ./tsconfig.json && cat ./src/index.tsx
-      - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
+      #- run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
         run: CI=false REACT_APP_BASEURL="/forknite/" yarn build
       - name: Deploy
