@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { BASENAME } from './config';
+import { ThreeReactWrapper } from '../pwa-tools/tools/ThreeReactWrapper';
+import { AppRoutes, NavBar } from "../pwa-tools/utils/routing"
 
 import { ForkniteDemo } from "./forknite-demo/ForkniteDemo"
 import { LoadingScreen } from "./forknite-demo/LoadingScreen"
-import { ThreeAppWrapper } from "../pwa-tools/tools/ThreeAppWrapper"
-import { AppRoutes, NavBar } from "../pwa-tools/utils/routing"
+
+import { BASENAME } from './config';
+
 
 // Entry point
 const App = () => {
@@ -26,7 +28,7 @@ const Entries = () => {
             <NavBar />
             <AppRoutes>
                 <LoadingScreen />
-                <ThreeAppWrapper appClass={ForkniteDemo} />
+                <ThreeReactWrapper appClass={ForkniteDemo} />
             </AppRoutes>
         </>
     )
