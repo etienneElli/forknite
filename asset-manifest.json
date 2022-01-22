@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/forknite/static/css/main.c336b97c.css",
-    "main.js": "/forknite/static/js/main.fc2555cd.js",
+    "main.js": "/forknite/static/js/main.817a8088.js",
     "static/js/377.ed0bbdca.chunk.js": "/forknite/static/js/377.ed0bbdca.chunk.js",
     "service-worker.js": "/forknite/service-worker.js",
     "index.html": "/forknite/index.html",
     "main.c336b97c.css.map": "/forknite/static/css/main.c336b97c.css.map",
-    "main.fc2555cd.js.map": "/forknite/static/js/main.fc2555cd.js.map",
+    "main.817a8088.js.map": "/forknite/static/js/main.817a8088.js.map",
     "377.ed0bbdca.chunk.js.map": "/forknite/static/js/377.ed0bbdca.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c336b97c.css",
-    "static/js/main.fc2555cd.js"
+    "static/js/main.817a8088.js"
   ]
 }
