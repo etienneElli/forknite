@@ -5,7 +5,7 @@ on:
     branches:
       - main
   pull_request:
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -15,40 +15,43 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
       - name: Setup CRA project
-        run: pwd && ls -la && 
+        run:
+          pwd && ls -la &&
           yarn create react-app . --template cra-template-pwa-typescript &&
           pwd && ls -la && mkdir ./src/modules/
           #cp -r /home/runner/work/forknite/forknite/ $PWA_DIR/src/modules/
       - uses: actions/checkout@v2
         with:
-          path: 'src/modules/forknite'
+          path: "src/modules/forknite"
       - uses: actions/checkout@v2
         with:
-          repository: 'etienne1911/pwa-tools'
-          path: 'src/modules/pwa-tools'
+          repository: "etienne1911/pwa-tools"
+          path: "src/modules/pwa-tools"
       - name: Include foreign modules
-        env: 
+        env:
           GITLAB_USR: ${{ secrets.GITLAB_USER }}
           GITLAB_PWD: ${{ secrets.GITLAB_TOKEN }}
         run: cd src/modules &&
-          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git 
-          # && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git 
-          # && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git 
+          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git
+          && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git
+          && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git
       - name: Retrieve packages deps
         run: pwd && ls -la && ls -la src/modules &&
           yarn add react-router-dom three @types/three cannon-es &&
           yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
           yarn add mousetrap @types/mousetrap
       - name: patch/customize cra files
+        env:
+          MODULE_NAME: "forknite"
         run: ls -la ./src/modules/pwa-tools/scripts/ &&
           node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
-          sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx &&
+          sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx &&
           cat ./tsconfig.json && cat ./src/index.tsx
-      #- run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
+      - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
-        run: CI=false PUBLIC_URL=/forknite REACT_APP_BASEURL="/forknite/" yarn build
+        run: CI=false PUBLIC_URL=/forknite yarn build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
