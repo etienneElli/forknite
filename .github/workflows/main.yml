@@ -48,7 +48,7 @@ jobs:
           cat ./tsconfig.json && cat ./src/index.tsx
       #- run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
-        run: CI=false REACT_APP_BASEURL="/forknite/" yarn build
+        run: CI=false PUBLIC_URL=/forknite REACT_APP_BASEURL="/forknite/" yarn build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
