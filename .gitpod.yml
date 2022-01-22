@@ -3,23 +3,25 @@ workspaceLocation: "."
 tasks:
   - name: setup
     init: |
-        yarn create react-app forknite-pwa --template cra-template-pwa-typescript
-        cd /workspace/forknite-pwa/src/
-        mkdir modules && cd modules/
-        mv /workspace/forknite/ ./
-        touch modules
-        echo "git clone https://github.com/etienne1911/forknite.git" >> modules
-        echo "git clone https://github.com/etienne1911/pwa-tools.git" >> modules
-        echo "git clone https://gitlab.com/three-modules/three-core.git" >> modules
-        echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules
-        echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules
-        sh modules
-        node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs
-        rm modules && mv .gitmodules ../../
-        cd /workspace/forknite-pwa/
-        yarn add react-router-dom 
-        node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs
-        sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
+      yarn create react-app forknite-pwa --template cra-template-pwa-typescript
+      cd /workspace/forknite-pwa/src/
+      mkdir modules && cd modules/
+      mv /workspace/forknite/ ./
+      touch modules
+      echo "git clone https://github.com/etienne1911/forknite.git" >> modules
+      echo "git clone https://github.com/etienne1911/pwa-tools.git" >> modules
+      echo "git clone https://gitlab.com/three-modules/three-core.git" >> modules
+      echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules
+      echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules
+      sh modules
+      node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs
+      rm modules && mv .gitmodules ../../
+      cd /workspace/forknite-pwa/
+      yarn add react-router-dom react-router-dom three @types/three cannon-es &&
+      yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
+      yarn add mousetrap @types/mousetrap
+      node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs
+      sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
     command: |
       cd /workspace/forknite-pwa
       yarn run start
