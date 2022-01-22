@@ -14,8 +14,9 @@ tasks:
       echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules_checkout
       echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules_checkout
       sh modules_checkout
-      node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout
+      node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout >> ../../.gitmodules
       rm modules_checkout && mv .gitmodules ../../
+      cd /workspace/forknite-pwa/src/modules/three-experiments/ && git checkout -b voxels
       cd /workspace/forknite-pwa/
       yarn add react-router-dom react-router-dom three @types/three cannon-es &&
       yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
