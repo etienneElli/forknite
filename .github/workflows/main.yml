@@ -42,10 +42,9 @@ jobs:
           yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
           yarn add mousetrap @types/mousetrap
       - name: patch/customize cra files
-        run:
-          ls -la
-          # node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
-          # sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
+        run: ls -la ./src/modules/pwa-tools/scripts/ &&
+          node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
+          sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
       - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
         run: ls -la && ls -R src/ && CI=false REACT_APP_BASEURL="/forknite/" yarn build
