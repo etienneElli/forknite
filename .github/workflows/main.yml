@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-20.04
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
-    env:
-      PWA_DIR: $GITHUB_WORKSPACE
-      MODULES_DIR: $PWA_DIR/src/modules
     steps:
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -45,8 +42,9 @@ jobs:
           yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
           yarn add mousetrap @types/mousetrap
       - name: patch/customize cra files
-        run: 
-          node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
+        run:
+          ls -la
+          # node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs &&
           # sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
       - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
