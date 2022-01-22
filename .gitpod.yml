@@ -10,6 +10,9 @@ tasks:
         touch modules
         echo "git clone https://github.com/etienne1911/forknite.git" >> modules
         echo "git clone https://github.com/etienne1911/pwa-tools.git" >> modules
+        echo "git clone https://gitlab.com/three-modules/three-core.git" >> modules
+        echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules
+        echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules
         sh modules
         node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs
         rm modules && mv .gitmodules ../../
