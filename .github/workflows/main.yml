@@ -34,7 +34,7 @@ jobs:
           GITLAB_PWD: ${{ secrets.GITLAB_TOKEN }}
         run: cd src/modules &&
           git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git 
-          && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git 
+          # && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git 
           # && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git 
       - name: Retrieve packages deps
         run: pwd && ls -la && ls -la src/modules &&
