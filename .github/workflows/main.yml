@@ -46,10 +46,14 @@ jobs:
       - name: Patch/customize cra files
         env:
           MODULE_NAME: "forknite"
-          CFG_PATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
+          JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
           MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"."}'
         run: 
+          node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF_PATCH}" > temp.json
+          && mv temp.json tsconfig.json
+          node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
+          && mv temp.json ./public/manifest.json
           node --experimental-json-modules $CFG_PATCHER ./tsconfig.json ${TSCONF_PATCH} > temp.json
           && mv temp.json tsconfig.json
           && node --experimental-json-modules $CFG_PATCHER ./public/manifest.json ${MANIFEST_PATCH} > temp.json
