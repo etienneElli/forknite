@@ -73,7 +73,7 @@ jobs:
           VIEWPORT_LINE: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />'
           TITLE_LINE: '<title>Forknite PWA</title>'
           HTML_PATCH_FILE: 'src/modules/pwa-tools/patches/gh-pages_spa-fix.patch'
-          HTML_PATCH_CONTENT: $(cat $HTML_PATCH_FILE)
+          #HTML_PATCH_CONTENT: $(cat $HTML_PATCH_FILE)
         run: |
           node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF_PATCH}" > temp.json
           mv temp.json tsconfig.json
@@ -83,7 +83,7 @@ jobs:
           sed -i "/viewport/c${VIEWPORT_LINE}" public/index.html
           cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json && cat public/index.html
           sed -i "/\/title/c${TITLE_LINE}" public/index.html
-          echo $HTML_PATCH_CONTENT
+          export HTML_PATCH_CONTENT=$(cat $HTML_PATCH_FILE) && echo $HTML_PATCH_CONTENT
           sed -i "/\/head/i${HTML_PATCH_CONTENT}" public/index.html
           cp src/modules/pwa-tools/patches/404.html public/
       - name: Link public assets
