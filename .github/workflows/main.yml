@@ -69,7 +69,7 @@ jobs:
           MODULE_NAME: "forknite"
           JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
-          MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo", "display": "fullscreen", "description":"Fortnite clone PWA version","start_url":".", "orientation": "landscape" }'
+          MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo", "display": "fullscreen", "description":"Fortnite clone PWA version","start_url":"/ForkniteDemo", "orientation": "landscape" }'
           VIEWPORT_LINE: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />'
           TITLE_LINE: '<title>Forknite PWA</title>'
           HTML_PATCH_FILE: 'src/modules/pwa-tools/patches/gh-pages_spa-fix.patch'
@@ -122,7 +122,7 @@ jobs:
         RUN_NUM: ${{ github.run_number }}
       run: |
         timestamp=$(date '+%Y%m%d') #$(date '+%Y-%m-%d_%H:%M:%S') 
-        build_num = ${timestamp}\#${RUN_NUM}
+        build_num=$timestamp\#$RUN_NUM
         echo $build_num
         CI=false PUBLIC_URL=/forknite BUILD_VER=$build_num yarn build
       
