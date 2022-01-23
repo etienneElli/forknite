@@ -13,9 +13,9 @@ tasks:
       echo "git clone https://gitlab.com/three-modules/three-core-modules.git" >> modules_checkout
       echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules_checkout
       echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules_checkout
-      node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout
+      sh modules_checkout
       node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout >> ../../.gitmodules
-      sh modules_checkout # && rm modules_checkout
+      rm modules_checkout
       cd /workspace/forknite-pwa/src/modules/three-experiments/ && git checkout voxels
       cd /workspace/forknite-pwa/
       ln -s /workspace/forknite-pwa/src/modules/three-resources/assets/ public/
@@ -25,14 +25,14 @@ tasks:
       export JSONPATCHER=./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs
       export TSCONF='{"compilerOptions":{"target":"es2015","strict":false}}'
       export MANIFEST_PATCH='{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"forknite/"}'
-      node --experimental-json-modules $JSONPATCHER ./tsconfig.json $TSCONF > temp.json
+      node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF}" > temp.json
       mv temp.json tsconfig.json
-      node --experimental-json-modules $JSONPATCHER ./public/manifest.json $MANIFEST_PATCH > temp.json
+      node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
       mv temp.json ./public/manifest.json
       sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
     command: |
       cd /workspace/forknite-pwa
-      # yarn run start
+      yarn run start
 ports:
   - port: 3000
     onOpen: ignore
