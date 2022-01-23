@@ -30,6 +30,8 @@ tasks:
       node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
       mv temp.json ./public/manifest.json
       sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
+      export LINE_REPLACE='<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />'
+      sed -i "/viewport/c${LINE_REPLACE}" public/index.html
     command: |
       cd /workspace/forknite-pwa
       yarn run start
