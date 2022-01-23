@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: WebApp static deployment
 
 # Controls when the workflow will run
 on:
@@ -23,9 +23,23 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
         
-    - uses: actions/download-artifact@v2
+    - name: Retrieve workspace arteface
+      uses: actions/download-artifact@v2
       with:
         name: forknite-workspace-artifact
       
     - name: Display structure of downloaded files
       run: ls -R
+      
+    - name: Download packages deps
+      run: yarn
+      
+    - name: Build production web app
+      run: CI=false PUBLIC_URL=/forknite yarn build
+      
+    - name: Github pages deployment
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/
