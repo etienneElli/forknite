@@ -69,7 +69,7 @@ jobs:
           MODULE_NAME: "forknite"
           JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
-          MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"."}'
+          MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo", "display": "fullscreen", "description":"Fortnite clone PWA version","start_url":".", "orientation": "landscape" }'
         run: |
           node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF_PATCH}" > temp.json
           mv temp.json tsconfig.json
