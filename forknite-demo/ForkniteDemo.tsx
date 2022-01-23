@@ -12,15 +12,17 @@ import {
 import { HighlightTriangle } from "../../three-core-modules/helpers/HighlightTriangle";
 import { Player } from "../../three-core-modules/misc/Player";
 import Mousetrap from "mousetrap";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { OrbitalCamera } from "../../three-core-modules/misc/Controls";
 import { getLevelMeshes, proceduralCavernsSplitted } from "../../three-experiments/Voxels/VoxelsDemos";
 
 const PLAYER_MAX_SPEED = 0.5; // m/s
 const PLAYER_ROT_SPEED = 0.025;
 
+const CLASS_NAME = "ForkniteDemo"
+
 export class ForkniteDemo extends ThreeDemoApp {
-  static Name = "ForkniteDemo";
+  static Name = CLASS_NAME;
   orbital;
   player;
   mem = { rot: new Vector2(0, 0) };
@@ -28,9 +30,9 @@ export class ForkniteDemo extends ThreeDemoApp {
   voxelsMeshes: any;
   highlightTriangle: HighlightTriangle;
 
-  init(): void {
-    super.init();
-    console.log("[VoxelDemo] Init");
+  init(initParams?): void {
+    super.init(initParams);
+    console.log(`[${CLASS_NAME}] Init`);
 
     // Init Camera
     this.camera.position.y = 10;
@@ -248,7 +250,6 @@ export class ForkniteDemo extends ThreeDemoApp {
       );
       this.highlightTriangle.update(a, b, c);
     }
-    this.scene.background = new THREE.Color(0xefd1b5);
     super.render();
   };
 }
