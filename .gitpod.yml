@@ -22,7 +22,10 @@ tasks:
       yarn add react-router-dom react-router-dom three @types/three cannon-es &&
       yarn add sparse-octree @timohausmann/quadtree-js proj4 &&
       yarn add mousetrap @types/mousetrap
-      node --experimental-json-modules ./src/modules/pwa-tools/scripts/patch_tsconf.mjs
+      node --experimental-json-modules ./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs ./tsconfig.json '{"compilerOptions":{"target":"es2015","strict":false}}'> temp.json
+      mv temp.json tsconfig.json
+      node --experimental-json-modules ./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs ./public/manifest.json '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"forknite/"}' > temp.json
+      mv temp.json ./public/manifest.json
       sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
     command: |
       cd /workspace/forknite-pwa
