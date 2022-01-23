@@ -3,10 +3,10 @@ import { ThreeReactWrapper } from '../pwa-tools/tools/ThreeReactWrapper';
 import { AppRoutes, NavBar } from "../pwa-tools/utils/routing"
 
 import { ForkniteDemo } from "./forknite-demo/ForkniteDemo"
-import { LoadingScreen } from "./forknite-demo/LoadingScreen"
+import { LoadingScreen } from "../pwa-tools/tools/LoadingScreen"
 
 import { BASENAME } from './config';
-
+import "./styles.css"
 
 // Entry point
 const App = () => {
@@ -24,13 +24,15 @@ const App = () => {
  */
 const Entries = () => {
     return (
-        <>
+        <div className="App">
             <NavBar />
-            <AppRoutes>
-                <LoadingScreen />
-                <ThreeReactWrapper appClass={ForkniteDemo} />
-            </AppRoutes>
-        </>
+            <div className="AppItems">
+                <AppRoutes style={{ position: "absolute" }}>
+                    <LoadingScreen />
+                    <ThreeReactWrapper appClass={ForkniteDemo} />
+                </AppRoutes>
+            </div>
+        </div>
     )
 }
 

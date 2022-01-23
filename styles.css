@@ -1,0 +1,14 @@
+.App .AppItems {
+  background-color: #282c34;
+}
+.AppItems {
+  background-color: #282c34;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  color: antiquewhite;
+}
+
+.AppItems a {
+  color: antiquewhite;
+}
