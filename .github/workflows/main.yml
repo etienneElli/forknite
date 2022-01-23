@@ -116,13 +116,15 @@ jobs:
     - name: Download packages deps
       run: yarn
 
-    - name: Insert Build information
+    - name: Build web app (include build information)
+      env: 
+        RUN_ID: ${{ github.run_id }}
+        RUN_NUM: ${{ github.run_number }}
       run: |
-        echo ${{ github.run_id }}
-        echo ${{ github.run_number }}
-      
-    - name: Build production web app
-      run: CI=false PUBLIC_URL=/forknite BUILD_VER=1.0 yarn build
+        timestamp=$(date '+%Y%m%d') #$(date '+%Y-%m-%d_%H:%M:%S') 
+        build_num = ${timestamp}\#${RUN_NUM}
+        echo $build_num
+        CI=false PUBLIC_URL=/forknite BUILD_VER=$build_num yarn build
       
     - name: Github pages deployment
       uses: peaceiris/actions-gh-pages@v3
