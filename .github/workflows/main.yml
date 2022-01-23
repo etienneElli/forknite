@@ -124,7 +124,7 @@ jobs:
         timestamp=$(date '+%Y%m%d') #$(date '+%Y-%m-%d_%H:%M:%S') 
         build_num=$timestamp\#$RUN_NUM
         echo $build_num
-        CI=false PUBLIC_URL=/forknite BUILD_VER=$build_num yarn build
+        CI=false PUBLIC_URL=/forknite REACT_APP_BUILD_NUM=$build_num yarn build
       
     - name: Github pages deployment
       uses: peaceiris/actions-gh-pages@v3
