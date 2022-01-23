@@ -20,15 +20,20 @@ const App = () => {
 }
 
 const Home = () => {
-    return (<div className="HomeScreen ">
-        <div className="center">
-            {/* <img src={logo} className="logo" alt="logo" /> */}
-            <h2>
-                WELCOME
-            </h2>
-            <Link to={"/forknite"}> <p>Press to start</p> </Link>
-        </div>
-    </div>)
+    return (
+        <div className="HomeScreen ">
+            <div className="center">
+                {/* <img src={logo} className="logo" alt="logo" /> */}
+                <h1>
+                    WELCOME
+                </h1>
+                <Link to={"/forknite"}> <h3>Press to start</h3> </Link>
+            </div>
+            <div className="bottom right">
+                {/* <img src={logo} className="logo" alt="logo" /> */}
+                <code style={{ fontSize: "small" }}>build number: {process.env.REACT_APP_BUILD_NUM}</code>
+            </div>
+        </div>)
 }
 
 /**
