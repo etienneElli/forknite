@@ -13,6 +13,7 @@ tasks:
       echo "git clone https://gitlab.com/three-modules/three-core-modules.git" >> modules_checkout
       echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules_checkout
       echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules_checkout
+      node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout
       node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout >> ../../.gitmodules
       sh modules_checkout # && rm modules_checkout
       cd /workspace/forknite-pwa/src/modules/three-experiments/ && git checkout voxels
@@ -31,7 +32,7 @@ tasks:
       sed -i 's/.\/App/.\/modules\/forknite\//' src/index.tsx
     command: |
       cd /workspace/forknite-pwa
-      yarn run start
+      # yarn run start
 ports:
   - port: 3000
     onOpen: ignore
