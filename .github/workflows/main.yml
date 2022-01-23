@@ -21,6 +21,11 @@ jobs:
           pwd && ls -la &&
           yarn create react-app . --template cra-template-pwa-typescript &&
           mkdir ./src/modules/
+      - name: Download packages deps
+        run: |
+          yarn add react-router-dom three @types/three cannon-es 
+          yarn add sparse-octree @timohausmann/quadtree-js proj4 
+          yarn add mousetrap @types/mousetrap
       - uses: actions/checkout@v2
         with:
           path: "src/modules/forknite"
@@ -32,44 +37,45 @@ jobs:
         env:
           GITLAB_USR: ${{ secrets.GITLAB_USER }}
           GITLAB_PWD: ${{ secrets.GITLAB_TOKEN }}
-        run: cd src/modules &&
+        run: |
+          cd src/modules
           git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git
-          && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git
-          && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git
-          && pwd && ls -la
-          && cd ./three-experiments/ && git checkout voxels
-      - name: Retrieve packages deps
-        run: 
-          yarn add react-router-dom three @types/three cannon-es 
-          && yarn add sparse-octree @timohausmann/quadtree-js proj4 
-          && yarn add mousetrap @types/mousetrap
-      - name: Patch/customize cra files
+          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git
+          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git
+          pwd && ls -la
+          cd ./three-experiments/ && git checkout voxels
+      - name: Generate submodules
+        run: |
+          cd src/modules/
+          echo "git clone https://github.com/etienne1911/forknite.git" >> modules_checkout
+          echo "git clone https://github.com/etienne1911/pwa-tools.git" >> modules_checkout
+          echo "git clone https://gitlab.com/three-modules/three-core-modules.git" >> modules_checkout
+          echo "git clone https://gitlab.com/three-modules/three-resources.git" >> modules_checkout
+          echo "git clone https://gitlab.com/three-modules/three-experiments.git" >> modules_checkout
+          node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs ./modules_checkout >> ../../.gitmodules
+          rm modules_checkout
+      - name: Patch/customize cra files #requires node package installed + scripts from pwa-tools rep
         env:
           MODULE_NAME: "forknite"
           JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
           MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"."}'
-        run: 
+        run: |
           node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF_PATCH}" > temp.json
-          && mv temp.json tsconfig.json
-          && node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
-          && mv temp.json ./public/manifest.json
-          && sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx 
-          && cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json
-      - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
-      - name: build web app
+          mv temp.json tsconfig.json
+          node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
+          mv temp.json ./public/manifest.json
+          sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx 
+          cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json
+      - name: Link public assets
+        run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
+      - name: Build web app
         run: CI=false PUBLIC_URL=/forknite yarn build
       - name: Workspace artefact
         uses: actions/upload-artifact@v2
         with:
-          name: workspace-artifact
+          name: forknite-workspace-artifact
           path: |
             .
             !./node_modules/
             !./build/
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/
