@@ -52,14 +52,10 @@ jobs:
         run: 
           node --experimental-json-modules $JSONPATCHER ./tsconfig.json "${TSCONF_PATCH}" > temp.json
           && mv temp.json tsconfig.json
-          node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
+          && node --experimental-json-modules $JSONPATCHER ./public/manifest.json "${MANIFEST_PATCH}" > temp.json
           && mv temp.json ./public/manifest.json
-          node --experimental-json-modules $CFG_PATCHER ./tsconfig.json ${TSCONF_PATCH} > temp.json
-          && mv temp.json tsconfig.json
-          && node --experimental-json-modules $CFG_PATCHER ./public/manifest.json ${MANIFEST_PATCH} > temp.json
-          && mv temp.json ./public/manifest.json
-          && sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx &&
-          cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json
+          && sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx 
+          && cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json
       - run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
       - name: build web app
         run: CI=false PUBLIC_URL=/forknite yarn build
