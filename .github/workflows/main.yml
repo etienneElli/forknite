@@ -82,9 +82,9 @@ jobs:
           sed -i "s/.\/App/.\/modules\/${MODULE_NAME}\//" src/index.tsx 
           sed -i "/viewport/c${VIEWPORT_LINE}" public/index.html
           cat ./tsconfig.json && cat ./src/index.tsx && cat ./public/manifest.json && cat public/index.html
-          sed "/\/title/c${TITLE_LINE}" public/index.html
+          sed -i "/\/title/c${TITLE_LINE}" public/index.html
           echo $HTML_PATCH_CONTENT
-          sed "/\/head/i${HTML_PATCH_CONTENT}" public/index.html
+          sed -i "/\/head/i${HTML_PATCH_CONTENT}" public/index.html
           cp src/modules/pwa-tools/patches/404.html public/
       - name: Link public assets
         run: ln -s $GITHUB_WORKSPACE/src/modules/three-resources/assets public/ && ls -la public/assets/
@@ -115,9 +115,14 @@ jobs:
       
     - name: Download packages deps
       run: yarn
+
+    - name: Insert Build information
+      run: |
+        echo ${{ github.run_id }}
+        echo ${{ github.run_number }}
       
     - name: Build production web app
-      run: CI=false PUBLIC_URL=/forknite yarn build
+      run: CI=false PUBLIC_URL=/forknite BUILD_VER=1.0 yarn build
       
     - name: Github pages deployment
       uses: peaceiris/actions-gh-pages@v3
