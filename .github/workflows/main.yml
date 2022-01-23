@@ -37,6 +37,7 @@ jobs:
           && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git
           && git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git
           && pwd && ls -la
+          && cd ./three-experiments/ && git checkout voxels
       - name: Retrieve packages deps
         run: 
           yarn add react-router-dom three @types/three cannon-es 
