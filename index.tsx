@@ -28,7 +28,7 @@ const Home = () => {
                 <h1>
                     WELCOME
                 </h1>
-                <Link to={"/forknite"}> <h3>Press to start</h3> </Link>
+                <Link to={"/forknite"}> <h3 className="blink">Press to start</h3> </Link>
             </div>
             <BuildNum />
         </div>)
