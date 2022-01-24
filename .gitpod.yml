@@ -3,15 +3,14 @@ workspaceLocation: "."
 tasks:
   - name: Workspace Setup
     env:  
-      PROJECT_NAME: 'forknite'
-      PROJECT_DIR: /workspace/${PROJECT_NAME}-pwa
+      PROJECT_DIR: /workspace/forknite-pwa
       JSONPATCHER: ./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs
       TSCONF: '{"compilerOptions":{"target":"es2015","strict":false}}'
       MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"forknite/"}'
       APP_PATH_SUBS: 's/.\/App/.\/modules\/forknite\//'
       VIEWPORT_LINE_REPLACE: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />'
       TITLE_LINE_REPLACE: '<title>Forknite PWA</title>'
-      PATCH_FILE: $PROJECT_DIR/src/modules/pwa-tools/patches/gh-pages_spa-fix.patch
+      PATCH_FILE: src/modules/pwa-tools/patches/gh-pages_spa-fix.patch
     init: |
       echo $PROJECT_DIR
       yarn create react-app $PROJECT_DIR --template cra-template-pwa-typescript
@@ -40,7 +39,8 @@ tasks:
       sed -i $APP_PATH_SUBS src/index.tsx
       sed -i "/viewport/c${VIEWPORT_LINE_REPLACE}" public/index.html
       sed -i "/\/title/c${TITLE_LINE_REPLACE}" public/index.html
-      export PATCH_CONTENT=$(cat $PATCH_FILE) && echo $PATCH_CONTENT
+      echo ${PROJECT_DIR}/${PATCH_FILE}
+      export PATCH_CONTENT=$(cat ${PROJECT_DIR}/${PATCH_FILE}) && echo $PATCH_CONTENT
       sed -i "/\/head/i${PATCH_CONTENT}" public/index.html
       cp src/modules/pwa-tools/patches/404.html public/
     command: |
