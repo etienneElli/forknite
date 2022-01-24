@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/forknite/static/css/main.30e102bc.css",
-    "main.js": "/forknite/static/js/main.fd8b557f.js",
+    "main.css": "/forknite/static/css/main.b79c483f.css",
+    "main.js": "/forknite/static/js/main.c8cff06b.js",
     "static/js/377.ed0bbdca.chunk.js": "/forknite/static/js/377.ed0bbdca.chunk.js",
     "static/media/rock2_norm.png": "/forknite/static/media/rock2_norm.eaf5e1616b64c64fe078.png",
     "static/media/rock_norm.png": "/forknite/static/media/rock_norm.101f1825533b3f3594aa.png",
@@ -12,14 +12,13 @@
     "static/media/rock.jpg": "/forknite/static/media/rock.416f52a9ed3429aae1bb.jpg",
     "static/media/sand.jpg": "/forknite/static/media/sand.bd7ee2005e31a2bd2640.jpg",
     "service-worker.js": "/forknite/service-worker.js",
-    "static/media/logo.svg": "/forknite/static/media/logo.103b5fa18196d5665a7e12318285c916.svg",
     "index.html": "/forknite/index.html",
-    "main.30e102bc.css.map": "/forknite/static/css/main.30e102bc.css.map",
-    "main.fd8b557f.js.map": "/forknite/static/js/main.fd8b557f.js.map",
+    "main.b79c483f.css.map": "/forknite/static/css/main.b79c483f.css.map",
+    "main.c8cff06b.js.map": "/forknite/static/js/main.c8cff06b.js.map",
     "377.ed0bbdca.chunk.js.map": "/forknite/static/js/377.ed0bbdca.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.30e102bc.css",
-    "static/js/main.fd8b557f.js"
+    "static/css/main.b79c483f.css",
+    "static/js/main.c8cff06b.js"
   ]
 }
