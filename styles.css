@@ -12,3 +12,43 @@
 .AppItems a {
   color: antiquewhite;
 }
+
+.HomeScreen,
+.LoadingScreen {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: antiquewhite;
+}
+
+.HomeScreen a,
+.LoadingScreen a {
+  color: cadetblue;
+  text-decoration: none;
+}
+
+.blink {
+  animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+    /* font-weight: bolder; */
+  }
+}
+
+.blink-color {
+  animation: colorblinker 1.5s linear infinite;
+}
+
+@keyframes colorblinker {
+  50% {
+    color: burlywood;
+    /* font-weight: bolder; */
+  }
+}

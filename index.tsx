@@ -1,3 +1,4 @@
+import {  useState } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { ThreeReactWrapper } from '../pwa-tools/tools/ThreeReactWrapper';
 import { ForkniteDemo } from "./forknite-demo/ForkniteDemo"
@@ -14,24 +15,49 @@ const App = () => {
         <BrowserRouter basename={BASENAME}>
             <Routes >
                 <Route index element={<Home />} />
-                <Route path="/forknite" element={<ThreeReactWrapper appClass={ForkniteDemo} />} />
+                <Route path="/forknite" element={<Load />} />
             </Routes>
         </BrowserRouter>
     );
 }
 
 const Home = () => {
+    const [title, setTitle] = useState("WELCOME")
     return (
         <div className="HomeScreen ">
             <div className="center">
                 {/* <img src={logo} className="logo" alt="logo" /> */}
                 <h1>
-                    WELCOME
+                    {title}
                 </h1>
-                <Link to={"/forknite"}> <h3 className="blink">Press to start</h3> </Link>
+                {/* <Suspense fallback={ LoadingScreen }> */}
+                <Link onClick={() => setTitle("LOADING")} to={"/forknite"}> <h3 className="blink">Press to start</h3> </Link>
+                {/* </Suspense> */}
             </div>
             <BuildNum />
         </div>)
+}
+const Load = () => {
+    return (<><ThreeReactWrapper appClass={ForkniteDemo} >
+        <LoadingScreen />
+    </ThreeReactWrapper>
+    </>)
+}
+
+export const LoadingScreen = () => {
+    console.log("loading")
+    return (
+        <div className="LoadingScreen ">
+            <div className="center">
+                {/* <img src={logo} className="logo" alt="logo" /> */}
+                <h2>
+                    LOADING
+                </h2>
+                <p className="blink-color">Please wait...</p>
+            </div>
+
+        </div>
+    );
 }
 
 /**
