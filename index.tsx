@@ -3,9 +3,10 @@ import { ThreeReactWrapper } from '../pwa-tools/tools/ThreeReactWrapper';
 import { ForkniteDemo } from "./forknite-demo/ForkniteDemo"
 // import { AppRoutes, NavBar } from "../pwa-tools/utils/routing"
 
+import { BuildNum } from '../pwa-tools/UI/elements';
 import { BASENAME } from './config';
-import "./styles.css"
 import "../pwa-tools/pwa.css"
+import "./styles.css"
 
 // Entry point
 const App = () => {
@@ -29,10 +30,7 @@ const Home = () => {
                 </h1>
                 <Link to={"/forknite"}> <h3>Press to start</h3> </Link>
             </div>
-            <div className="bottom right">
-                {/* <img src={logo} className="logo" alt="logo" /> */}
-                <code style={{ fontSize: "small" }}>build number: {process.env.REACT_APP_BUILD_NUM}</code>
-            </div>
+            <BuildNum />
         </div>)
 }
 
