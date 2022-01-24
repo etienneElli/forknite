@@ -4,7 +4,7 @@ tasks:
   - name: Workspace Setup
     env:  
       PROJECT_NAME: 'forknite'
-      PROJECT_DIR: /workspace/$PROJECT_NAME-pwa
+      PROJECT_DIR: /workspace/${PROJECT_NAME}-pwa
       JSONPATCHER: ./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs
       TSCONF: '{"compilerOptions":{"target":"es2015","strict":false}}'
       MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo","description":"Fortnite clone PWA version","start_url":"forknite/"}'
