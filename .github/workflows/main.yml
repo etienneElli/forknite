@@ -21,7 +21,8 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     env:
-      MODULES_FILE: $GITHUB_WORKSPACE/src/modules/modules.checkoutme
+      MODULE_NAME: forknite
+      MODULES_INDEX_FILE: src/modules/modules_index
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Node
@@ -58,18 +59,17 @@ jobs:
           cd ./three-experiments/ && git checkout voxels
       - name: Generate submodules
         run: |
-          echo $MODULES_FILE
-          cd src/modules/
-          echo "github.com/etienne1911/forknite.git" >> MODULES_FILE
-          echo "github.com/etienne1911/pwa-tools.git" >> MODULES_FILE
-          echo "gitlab.com/three-modules/three-core-modules.git" >> MODULES_FILE
-          echo "gitlab.com/three-modules/three-resources.git" >> MODULES_FILE
-          echo "gitlab.com/three-modules/three-experiments.git" >> MODULES_FILE
-          node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs MODULES_FILE >> ../../.gitmodules
-          rm modules_checkout
+          echo $MODULES_INDEX_FILE
+          echo "github.com/etienne1911/forknite.git" >> MODULES_INDEX_FILE
+          echo "github.com/etienne1911/pwa-tools.git" >> MODULES_INDEX_FILE
+          echo "gitlab.com/three-modules/three-core-modules.git" >> MODULES_INDEX_FILE
+          echo "gitlab.com/three-modules/three-resources.git" >> MODULES_INDEX_FILE
+          echo "gitlab.com/three-modules/three-experiments.git" >> MODULES_INDEX_FILE
+          cat .gitmodules
+          #node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs $MODULES_INDEX_FILE >> .gitmodules
+          #rm MODULES_INDEX_FILE
       - name: Patch/customize cra files #requires node package installed + scripts from pwa-tools rep
         env:
-          MODULE_NAME: "forknite"
           JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
           MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo", "display": "fullscreen", "description":"Fortnite clone PWA version","start_url":"/ForkniteDemo", "orientation": "landscape" }'
