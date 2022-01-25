@@ -132,6 +132,7 @@ jobs:
       run: |
         yarn
         yarn setup
+        cd src/modules/three-experiments/ && git checkout voxels
 
     - name: Build web app (include build information)
       env: 
