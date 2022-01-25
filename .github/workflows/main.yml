@@ -21,7 +21,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     env:
-      MODULES_FILE: '${GITHUB_WORKSPACE}/src/modules/modules.checkoutme'
+      MODULES_FILE: $GITHUB_WORKSPACE/src/modules/modules.checkoutme
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Node
