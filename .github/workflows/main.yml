@@ -53,11 +53,13 @@ jobs:
           GITLAB_PWD: ${{ secrets.GITLAB_TOKEN }}
         run: |
           echo $CI
-          # clone foreign modules only
+          # clone foreign modules
           echo "$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git" >> $MODULES_INDEX_FILE
           echo "gitlab.com/three-modules/three-resources.git" >> $MODULES_INDEX_FILE
           echo "gitlab.com/three-modules/three-experiments.git" >> $MODULES_INDEX_FILE
-          node $SCRIPTS_DIR/gen_git_commands.mjs $MODULES_INDEX_FILE | sh 
+          cd src/modules/
+          echo $GITHUB_WORKSPACE/$SCRIPTS_DIR
+          node $GITHUB_WORKSPACE/$SCRIPTS_DIR/gen_git_commands.mjs $GITHUB_WORKSPACE/$MODULES_INDEX_FILE | sh 
           pwd && ls -la
           cd ./three-experiments/ && git checkout voxels
       - name: Complete modules index and Generate gitmodules config file 
