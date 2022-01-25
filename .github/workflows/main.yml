@@ -62,6 +62,8 @@ jobs:
           node $GITHUB_WORKSPACE/$SCRIPTS_DIR/gen_git_commands.mjs $GITHUB_WORKSPACE/$MODULES_INDEX_FILE | sh 
           pwd && ls -la
           cd ./three-experiments/ && git checkout voxels
+          # backup mandatory script
+          cp $GITHUB_WORKSPACE/$SCRIPTS_DIR/gen_git_commands.mjs .
       - name: Complete modules index and Generate gitmodules config file 
         run: |
           # add remaining modules to the index
@@ -104,8 +106,7 @@ jobs:
             .
             !./node_modules/
             !./build/
-            !./src/modules/*
-            MODULES_INDEX_FILE
+            !./src/modules/*/
   # This job retrieve workspace artifact published before 
   webapp_deploy:
     name: Publish webapp
@@ -121,8 +122,11 @@ jobs:
     - name: Display structure of downloaded files
       run: ls -R
       
-    - name: Download packages deps
-      run: yarn
+    - name: Download packages deps and checkout modules
+      run: |
+        yarn
+        cd src/modules
+        node ./gen_git_commands modules_index > sh
 
     - name: Build web app (include build information)
       env: 
