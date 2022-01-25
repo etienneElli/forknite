@@ -54,12 +54,12 @@ jobs:
         run: |
           echo $CI
           # clone foreign modules
-          echo "$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git" >> $MODULES_INDEX_FILE
+          echo "GITLAB_USR:GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git" >> $MODULES_INDEX_FILE
           echo "gitlab.com/three-modules/three-resources.git" >> $MODULES_INDEX_FILE
           echo "gitlab.com/three-modules/three-experiments.git" >> $MODULES_INDEX_FILE
           cd src/modules/
           echo $GITHUB_WORKSPACE/$SCRIPTS_DIR
-          node $GITHUB_WORKSPACE/$SCRIPTS_DIR/gen_git_commands.mjs $GITHUB_WORKSPACE/$MODULES_INDEX_FILE | sh 
+          node $GITHUB_WORKSPACE/$SCRIPTS_DIR/gen_git_commands.mjs $GITHUB_WORKSPACE/$MODULES_INDEX_FILE | sed 's/GIT/\$GIT/g' | sh 
           pwd && ls -la
           cd ./three-experiments/ && git checkout voxels
       - name: Complete modules index and Generate gitmodules config file 
@@ -79,7 +79,7 @@ jobs:
           JSON_PATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
           TSCONF_PATCH: '{"compilerOptions":{"target":"es2015","strict":false}}'
           MANIFEST_PATCH: '{"short_name":"Forknite","name":"Forknite PWA Demo", "display": "fullscreen", "description":"Fortnite clone PWA version","start_url":"/ForkniteDemo", "orientation": "landscape" }'
-          PACKAGE_PATCH: '{"scripts":{"setup":"cd src/modules && node gen_git_commands.mjs modules_index | sh"}}'
+          PACKAGE_PATCH: '{"scripts":{"setup":"cd src/modules && node gen_git_commands.mjs modules_index | sed 's/GIT/\$GIT/g' | sh"}}'
           VIEWPORT_LINE: '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />'
           TITLE_LINE: '<title>Forknite PWA</title>'
           HTML_PATCH_FILE: 'src/modules/pwa-tools/patches/gh-pages_spa-fix.patch'
