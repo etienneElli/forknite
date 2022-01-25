@@ -23,6 +23,7 @@ jobs:
     env:
       MODULE_NAME: forknite
       MODULES_INDEX_FILE: src/modules/modules_index
+      SCRIPTS_DIR: src/modules/pwa-tools/scripts/
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Node
@@ -51,23 +52,24 @@ jobs:
           GITLAB_USR: ${{ secrets.GITLAB_USER }}
           GITLAB_PWD: ${{ secrets.GITLAB_TOKEN }}
         run: |
+          echo $CI
+          # clone foreign modules only
+          echo "$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git" >> $MODULES_INDEX_FILE
+          echo "gitlab.com/three-modules/three-resources.git" >> $MODULES_INDEX_FILE
+          echo "gitlab.com/three-modules/three-experiments.git" >> $MODULES_INDEX_FILE
           cd src/modules
-          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-core-modules.git
-          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-resources.git
-          git clone https://$GITLAB_USR:$GITLAB_PWD@gitlab.com/three-modules/three-experiments.git
+          node $SCRIPTS_DIR/gen_git_commands.mjs $MODULES_INDEX_FILE | sh 
           pwd && ls -la
           cd ./three-experiments/ && git checkout voxels
-      - name: Generate submodules
-        run: |
-          echo $MODULES_INDEX_FILE
-          echo "github.com/etienne1911/forknite.git" >> MODULES_INDEX_FILE
-          echo "github.com/etienne1911/pwa-tools.git" >> MODULES_INDEX_FILE
-          echo "gitlab.com/three-modules/three-core-modules.git" >> MODULES_INDEX_FILE
-          echo "gitlab.com/three-modules/three-resources.git" >> MODULES_INDEX_FILE
-          echo "gitlab.com/three-modules/three-experiments.git" >> MODULES_INDEX_FILE
+      - name: Generate gitmodules config file 
+          run: |
+          # add remaining modules to the index
+          echo "github.com/etienne1911/forknite.git" >> $MODULES_INDEX_FILE
+          echo "github.com/etienne1911/pwa-tools.git" >> $MODULES_INDEX_FILE
+          # generate file
+          node $SCRIPTS_DIR/gen_gitmodules.mjs $MODULES_INDEX_FILE >> .gitmodules
           cat .gitmodules
-          #node --experimental-json-modules ./pwa-tools/scripts/create_submodules.mjs $MODULES_INDEX_FILE >> .gitmodules
-          #rm MODULES_INDEX_FILE
+          # keep module index file for later checkout
       - name: Patch/customize cra files #requires node package installed + scripts from pwa-tools rep
         env:
           JSONPATCHER: "./src/modules/pwa-tools/scripts/json_cfg_patcher.mjs"
@@ -101,6 +103,8 @@ jobs:
             .
             !./node_modules/
             !./build/
+            !./src/modules/*
+            MODULES_INDEX_FILE
   # This job retrieve workspace artifact published before 
   webapp_deploy:
     name: Publish webapp
